@@ -10,7 +10,7 @@ interface OwnProps extends NavigationContainerProps {
 }
 
 interface StateProps {
-    isLoggedin: boolean
+    
 }
 
 interface DispatchProps {
@@ -19,15 +19,11 @@ interface DispatchProps {
 
 interface LoginProps extends OwnProps, StateProps, DispatchProps { }
 
-const Login: React.FC<LoginProps> = ({ isLoggedin, navigation, setIsLoggedIn }) => {
+const Login: React.FC<LoginProps> = ({ navigation, setIsLoggedIn }) => {
     const [mobileno, setMobileno] = useState('');
     const [password, setPassword] = useState('');
     const [mobilenoError, setMobilenoError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-
-    if(isLoggedin){
-        navigation.replace('Home');
-    }
 
     const login = () => {
         let error = false;
@@ -45,7 +41,7 @@ const Login: React.FC<LoginProps> = ({ isLoggedin, navigation, setIsLoggedIn }) 
             return;
         }
         setIsLoggedIn(true);
-        navigation.replace('Home');
+        navigation.replace('DrawerNavigation');
         // navigation.navigate('Home');
     }
 
@@ -88,7 +84,7 @@ const styles = StyleSheet.create({
 
   export default connect<OwnProps, StateProps, DispatchProps>({
     mapStateToProps: (state) => ({
-        isLoggedin: state.user.isLoggedin
+        
     }),
     mapDispatchToProps: {
       setIsLoggedIn,

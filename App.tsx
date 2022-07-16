@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { AppContextProvider } from './src/data/AppContext';
 import { connect } from './src/data/connect';
 import { loadUserData } from './src/data/user/user.actions';
-import Navigation from './src/Navigation';
+import { Navigation } from './src/Navigation';
 
 const App: React.FC = () => {
   return (
@@ -15,7 +15,8 @@ const App: React.FC = () => {
 };
 
 interface StateProps {
-  
+  isLoading: boolean,
+  isLoggedin: boolean
 }
 
 interface DispatchProps {
@@ -24,7 +25,7 @@ interface DispatchProps {
 
 interface MyAppProps extends StateProps, DispatchProps { }
 
-const MyApp: React.FC<MyAppProps> = ({ loadUserData }) => {
+const MyApp: React.FC<MyAppProps> = ({ isLoading, isLoggedin, loadUserData }) => {
 
   useEffect(() => {
     loadUserData();
@@ -32,7 +33,7 @@ const MyApp: React.FC<MyAppProps> = ({ loadUserData }) => {
   }, []);
 
   return (
-    <Navigation></Navigation>
+    !isLoading ? <Navigation isLoggedin={isLoggedin}></Navigation> : <View></View>
   )
 }
 
@@ -49,7 +50,8 @@ export default App;
 
 const AppConnected = connect<{}, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-
+    isLoggedin: state.user.isLoggedin,
+    isLoading: state.user.loading
   }),
   mapDispatchToProps: { loadUserData },
   component: MyApp
